@@ -4,7 +4,7 @@ from tools.graph_utils import create_graph_base64  # updated import
 
 
 # Gemini setup
-genai.configure(api_key="AIzaSyCb5Ozmtkw350jCWMEUH0anyK6WS0jmq1Q")
+genai.configure(api_key="ADD API HERE")
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 def get_structured_explanation(topic):
@@ -107,3 +107,4 @@ def analyze_topic(topic):
             )
 
     return explanation, graph_needed, graph_b64
+
