@@ -13,21 +13,28 @@ Explain the topic below in a clean hierarchical structure.
 
 {topic}
     Short Description
-        - 2–3 simple lines.
+        --> 2–3 simple lines.
+        
     Key Concepts
-        - Bullet points.
+        --> Bullet points.
+
     How It Works
-        - 3–5 bullets.
+        --> 3–5 bullets.
+        
     Advantages
-        - Bullet list.
+        --> Bullet list.
+        
     Disadvantages
-        - Bullet list.
+        --> Bullet list.
+        
     Real-World Applications
-        - 3 examples.
+        --> 3 examples.
+        
     Example
-        - 2 line example.
+        --> 2 line example.
+        
     Summary
-        - 1–2 lines.
+        --> 1–2 lines.
 
 Rules:
 - Use '-' bullet points only.
@@ -107,4 +114,5 @@ def analyze_topic(topic):
             )
 
     return explanation, graph_needed, graph_b64
+
 
