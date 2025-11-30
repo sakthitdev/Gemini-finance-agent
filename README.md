@@ -120,8 +120,11 @@ This modular structure helps keep the logic clean and maintainable.
 
 # 2️) Install required packages
     pip install flask google-generativeai matplotlib
+    
+# 3) Get a API from google AI Studio and add to the gemini_util.py file:
+    genai.configure(api_key="ADD THE AIP HERE")
 
-# 3) Run the Application
+# 4) Run the Application
     python Main.py
 
 open this port in your browser:
