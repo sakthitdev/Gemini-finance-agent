@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.input-box {
+    width: 85%;
+    padding: 10px;
+    margin: 6px auto;
+    display: block;
+    border: 2px solid #333;
+    border-radius: 6px;
+    background: #eee;
+}
+</style>
+</head>
+
+<body style="font-family: Arial; background:#ccc; padding:20px;">
+
+<h1 style="text-align:center;">AI Toolkit (Calculator + Topic Analyzer)</h1>
+
+<!-- CALCULATOR -->
+<h2>Monthly Expense Calculator</h2>
+
+<div style="max-width:300px; margin:auto; background:#bbb; padding:20px; border:3px solid black; border-radius:12px;">
+
+    <input id="salary" class="input-box" type="number" placeholder="Salary">
+    <input id="food" class="input-box" type="number" placeholder="Food Expense">
+    <input id="rent" class="input-box" type="number" placeholder="Rent">
+    <input id="travel" class="input-box" type="number" placeholder="Travel">
+    <input id="bills" class="input-box" type="number" placeholder="Bills">
+    <input id="other" class="input-box" type="number" placeholder="Other Expenses">
+
+    <select id="emi" class="input-box">
+        <option value="no">EMI? No</option>
+        <option value="yes">EMI? Yes</option>
+    </select>
+
+    <select id="life" class="input-box">
+        <option value="no">Life Insurance? No</option>
+        <option value="yes">Life Insurance? Yes</option>
+    </select>
+
+    <button onclick="doCalc()" style="width:85%; padding:12px; margin:auto; display:block; background:#222; color:white; border-radius:6px;">
+        Calculate
+    </button>
+</div>
+
+<div id="calcResult" style="max-width:900px; margin:20px auto;"></div>
+
+<hr style="margin:40px;">
+
+
+<!-- TOPIC ANALYZER -->
+<h2>AI Topic Analyzer (Gemini + Graph)</h2>
+
+<div style="max-width:900px; margin:auto; background:#bbb; padding:25px; border:3px solid black; border-radius:12px;">
+    <input id="topic" class="input-box" type="text" placeholder="Ask about finance (e.g., Dividend, insty50 stock)
+">
+
+    <button onclick="processTopic()" style="width:85%; padding:14px; margin:auto; display:block; background:#444; color:white; border-radius:6px;">
+        Analyze Topic
+    </button>
+</div>
+
+<div id="explainBox" style="max-width:900px; margin:25px auto; padding:20px; background:#eee; border:2px solid black; border-radius:10px;"></div>
+
+<div id="graphBox" style="max-width:900px; margin:25px auto; display:none; padding:20px; background:#eee; border:2px solid black; border-radius:10px;"></div>
+
+
+<script>
+function doCalc() {
+    fetch("/calculate", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            salary: salary.value,
+            food: food.value,
+            rent: rent.value,
+            travel: travel.value,
+            bills: bills.value,
+            other: other.value,
+            emi: emi.value,
+            life: life.value
+        })
+    })
+    .then(r => r.json())
+    .then(d => calcResult.innerHTML = d.result);
+}
+
+
+function processTopic() {
+    fetch("/process_topic", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ topic: topic.value })
+    })
+    .then(res => res.json())
+    .then(data => {
+        explainBox.innerHTML = "<h2>Explanation</h2><br>" + data.explanation;
+
+        if (data.graph_required && data.graph_base64) {
+            graphBox.style.display = "block";
+            graphBox.innerHTML = "<h2>Graph</h2>" +
+                `<img src="data:image/png;base64,${data.graph_base64}" style="width:100%; border-radius:10px;">`;
+        } else {
+            graphBox.style.display = "none";
+        }
+    });
+}
+</script>
+
+</body>
+</html>
